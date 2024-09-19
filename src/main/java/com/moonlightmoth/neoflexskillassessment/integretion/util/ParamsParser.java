@@ -1,9 +1,10 @@
-package com.moonlightmoth.neoflexskillassessment.util;
+package com.moonlightmoth.neoflexskillassessment.integretion.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -29,7 +30,7 @@ public class ParamsParser {
             LocalDate from = parseLocalDate(fromDate);
             LocalDate dueTo = parseLocalDate(dueToDate);
 
-            if (from.isBefore(dueTo))
+            if (from.isBefore(dueTo.plusDays(1)))
                 return FULL_FORM;
             else
                 return INVALID_PARAMS;
@@ -108,6 +109,12 @@ public class ParamsParser {
     //parse String in format dd.MM.yy
     public LocalDate parseLocalDate(String dateParam)
     {
+        LocalDate localDate = LocalDate.parse(dateParam, DateTimeFormatter.ofPattern("dd.MM.yy"));
+
+        // LocalDate.parse() doesn't throw exception if parses 31.02.xx, but returns last valid day of feb. We need exception here
+        if (localDate.getMonth() == Month.FEBRUARY && !localDate.format(DateTimeFormatter.ofPattern("dd.MM.yy")).equals(dateParam))
+            throw new DateTimeParseException("No such day in February current year", "", 0);
+
         return LocalDate.parse(dateParam, DateTimeFormatter.ofPattern("dd.MM.yy"));
     }
 }

@@ -1,6 +1,6 @@
-package com.moonlightmoth.neoflexskillassessment.repository;
+package com.moonlightmoth.neoflexskillassessment.integretion.repository;
 
-import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

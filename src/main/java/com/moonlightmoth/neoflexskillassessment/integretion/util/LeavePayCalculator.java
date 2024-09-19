@@ -1,6 +1,6 @@
-package com.moonlightmoth.neoflexskillassessment.util;
+package com.moonlightmoth.neoflexskillassessment.integretion.util;
 
-import com.moonlightmoth.neoflexskillassessment.repository.HolidaysRepository;
+import com.moonlightmoth.neoflexskillassessment.integretion.repository.HolidaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.DayOfWeek;
@@ -25,7 +25,7 @@ public class LeavePayCalculator {
     //calculate complicated case: fetch holidays from HolidaysRepository and exclude these days from payment
     public double calculateFullForm(double avgSalary, LocalDate fromDate, LocalDate dueToDate)
     {
-        int numberOfPaidDays = 0;
+        int numberOfPaidDays = 1; // init val is 1 to consider last day of vacation
 
         while (fromDate.isBefore(dueToDate))
         {

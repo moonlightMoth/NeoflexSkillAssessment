@@ -1,9 +1,9 @@
-package com.moonlightmoth.neoflexskillassessment;
+package com.moonlightmoth.neoflexskillassessment.integretion;
 
-import com.moonlightmoth.neoflexskillassessment.repository.HolidaysRepository;
-import com.moonlightmoth.neoflexskillassessment.util.LeavePayCalculator;
-import com.moonlightmoth.neoflexskillassessment.util.ConsoleLogger;
-import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.integretion.repository.HolidaysRepository;
+import com.moonlightmoth.neoflexskillassessment.integretion.util.LeavePayCalculator;
+import com.moonlightmoth.neoflexskillassessment.integretion.util.ConsoleLogger;
+import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
 import org.springframework.context.annotation.*;
 
 @Configuration

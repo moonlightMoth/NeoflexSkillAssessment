@@ -1,8 +1,8 @@
-package com.moonlightmoth.neoflexskillassessment.controller;
+package com.moonlightmoth.neoflexskillassessment.integretion.controller;
 
-import com.moonlightmoth.neoflexskillassessment.util.ConsoleLogger;
-import com.moonlightmoth.neoflexskillassessment.util.LeavePayCalculator;
-import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.integretion.util.ConsoleLogger;
+import com.moonlightmoth.neoflexskillassessment.integretion.util.LeavePayCalculator;
+import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,4 +72,6 @@ public class CalculateController {
 
         return resp;
     }
+
+
 }

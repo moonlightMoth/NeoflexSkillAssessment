@@ -1,4 +1,4 @@
-package com.moonlightmoth.neoflexskillassessment.util;
+package com.moonlightmoth.neoflexskillassessment.integretion.util;
 
 
 import org.springframework.http.ResponseEntity;
