@@ -1,5 +1,9 @@
 package com.moonlightmoth.neoflexskillassessment.controller;
 
+import com.moonlightmoth.neoflexskillassessment.util.ConsoleLogger;
+import com.moonlightmoth.neoflexskillassessment.util.LeavePayCalculator;
+import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CalculateController {
 
-    private static final int INVALID_ARGS = -1;
-    private static final int SHORT_FORM = 0;
-    private static final int FULL_FORM = 1;
+    @Autowired
+    private ParamsParser parser;
+
+    @Autowired
+    private LeavePayCalculator leavePayCalculator;
+
+    @Autowired
+    private ConsoleLogger consoleLogger;
+    private static final String BAD_REQUEST_HINT =
+                            "Request parameters format:<br>" +
+                            "avgSalary AND (vacationLength XOR (fromDate AND dueToDate))<br>" +
+                            "avgSalary: double<br>" +
+                            "vacationLength: int<br>" +
+                            "fromDate: dd.MM.yy<br>" +
+                            "dueToDate: dd.MM.yy <br>";
 
     @GetMapping("/calculate")
     public ResponseEntity<String> calculate(
@@ -20,25 +36,40 @@ public class CalculateController {
             @RequestParam (name = "fromDate", required = false)                 String fromDate,
             @RequestParam (name = "dueToDate", required = false)                String dueToDate)
     {
-        int type = getRequestType(avgSalary, vacationLength, fromDate, dueToDate);
+        int type = parser.validateParams(avgSalary, vacationLength, fromDate, dueToDate);
         ResponseEntity<String> resp;
+        double leavePay;
+
 
         switch (type)
         {
-            default -> resp = ResponseEntity.status(HttpStatus.OK).body("Request must have query OR body params avgSalary AND (vacationLength OR (fromDate AND dueToDate))");
+            case ParamsParser.SHORT_FORM :
+                leavePay = leavePayCalculator.calculateShortForm(
+                        Double.parseDouble(avgSalary),
+                        Integer.parseInt(vacationLength));
+
+                resp = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(String.valueOf(leavePay));
+            break;
+
+            case ParamsParser.FULL_FORM:
+                leavePay = leavePayCalculator.calculateFullForm(
+                        parser.parseDouble(avgSalary),
+                        parser.parseLocalDate(fromDate),
+                        parser.parseLocalDate(dueToDate));
+
+                resp = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(String.valueOf(leavePay));
+            break;
+            default: resp = ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(BAD_REQUEST_HINT);
         }
 
+        System.out.println(consoleLogger.buildResponseStringForLog(resp));
+
         return resp;
-    }
-
-    private int getRequestType(String avgSalary, String vacationLength, String fromDate, String dueToDate) //TODO
-    {
-        if (avgSalary == null)
-            return INVALID_ARGS;
-
-        if (vacationLength == null && (fromDate == null || dueToDate == null)) //TODO
-            return INVALID_ARGS;
-
-        return INVALID_ARGS;
     }
 }

@@ -1,9 +1,11 @@
 package com.moonlightmoth.neoflexskillassessment;
 
-import jakarta.websocket.server.ServerEndpoint;
+import com.moonlightmoth.neoflexskillassessment.repository.HolidaysRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class NeoflexSkillAssessmentApplication {
