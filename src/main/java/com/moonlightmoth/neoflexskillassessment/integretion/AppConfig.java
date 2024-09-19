@@ -5,12 +5,13 @@ import com.moonlightmoth.neoflexskillassessment.integretion.util.LeavePayCalcula
 import com.moonlightmoth.neoflexskillassessment.integretion.util.ConsoleLogger;
 import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
 import org.springframework.context.annotation.*;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 @Configuration
-//@ComponentScan(basePackages = "com.moonlightmoth.neoflexskillassessment")
 public class AppConfig {
 
-    @Bean("paramsParser")
+    @Bean
     public ParamsParser paramsParser()
     {
         return new ParamsParser();
@@ -20,7 +21,7 @@ public class AppConfig {
     @DependsOn("paramsParser")
     public HolidaysRepository holidaysRepository(ParamsParser paramsParser)
     {
-        return new HolidaysRepository(paramsParser);
+        return new HolidaysRepository(paramsParser, new ClassPathResource("holidays"));
     }
 
     @Bean

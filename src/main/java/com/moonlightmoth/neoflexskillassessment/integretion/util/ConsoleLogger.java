@@ -2,9 +2,11 @@ package com.moonlightmoth.neoflexskillassessment.integretion.util;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 
 public class ConsoleLogger {
 

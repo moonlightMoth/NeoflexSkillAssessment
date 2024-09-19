@@ -138,5 +138,7 @@ public class ParamsParserTest {
         assertEquals(paramsParser.validateParams(null, null, "12.12.12", "12.12.12"), ParamsParser.INVALID_PARAMS);
         assertEquals(paramsParser.validateParams(null, "12", null, null), ParamsParser.INVALID_PARAMS);
 
+        assertEquals(paramsParser.validateParams("12", null, "13.12.12", "12.12.12"), ParamsParser.INVALID_PARAMS);
+
     }
 }

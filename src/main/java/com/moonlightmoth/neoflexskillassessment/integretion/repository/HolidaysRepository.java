@@ -4,6 +4,7 @@ import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashSet;
 import java.util.Set;
+
 
 public class HolidaysRepository {
 
@@ -27,22 +29,21 @@ public class HolidaysRepository {
                     "WARNING: holidays file found, but is empty, " +
                     "proceeding workflow without excluding holidays data.\n" +
                     "Format must be dd.MM.yy on separate lines\n";
+
     private ParamsParser paramsParser;
     private Set<LocalDate> holidaysSet;
 
     @Autowired
-    public HolidaysRepository(ParamsParser paramsParser)
+    public HolidaysRepository(ParamsParser paramsParser, Resource loadFrom)
     {
         this.paramsParser = paramsParser;
-        fetchHolidays();
+        fetchHolidays(loadFrom);
     }
 
     // fetch holidays from src/main/java/resources/holidays
-    public void fetchHolidays()
+    public void fetchHolidays(Resource holidayResource)
     {
         holidaysSet = new HashSet<>();
-
-        Resource holidayResource = new ClassPathResource("holidays");
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(holidayResource.getInputStream())))
         {
@@ -81,9 +82,6 @@ public class HolidaysRepository {
 
     public boolean isHoliday(LocalDate localDate)
     {
-        if (holidaysSet == null)
-            fetchHolidays();
-
         return holidaysSet.contains(localDate);
     }
 }
