@@ -17,6 +17,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 
 @RestController
 public class CalculateController {
@@ -58,7 +59,7 @@ public class CalculateController {
 
                 resp = ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(String.valueOf(leavePay));
+                    .body(String.format(Locale.ENGLISH, "%.2f", leavePay));
             break;
 
             case ParamsParser.FULL_FORM:
@@ -69,7 +70,7 @@ public class CalculateController {
 
                 resp = ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(String.valueOf(leavePay));
+                    .body(String.format(Locale.ENGLISH, "%.2f", leavePay));
             break;
             default: resp = ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

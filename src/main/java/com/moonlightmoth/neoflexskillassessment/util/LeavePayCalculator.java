@@ -20,7 +20,14 @@ public class LeavePayCalculator {
     // calculate simple case: average day salary times leave days
     public double calculateShortForm(double avgSalary, int vacationLength)
     {
-        return avgSalary*vacationLength/365;
+        double leavePayment = avgSalary * vacationLength / 365;
+        double gap = leavePayment * 100 - (long) (leavePayment * 100);
+
+        // cents are rounded in favor of the employee
+        if (0.000000001 < gap && gap < 0.5)
+            leavePayment += 0.01;
+
+        return leavePayment;
     }
 
     //calculate complicated case: fetch holidays from HolidaysRepository and exclude these days from payment
@@ -38,7 +45,14 @@ public class LeavePayCalculator {
         if (isPaidDayoff(dueToDate)) // last day of range is included
             numberOfPaidDays++;
 
-        return avgSalary * numberOfPaidDays / 365;
+        double leavePayment = avgSalary * numberOfPaidDays / 365;
+        double gap = leavePayment * 100 - (long) (leavePayment * 100);
+
+        // cents are rounded in favor of the employee
+        if (0.000000001 < gap && gap < 0.5)
+            leavePayment += 0.01;
+
+        return leavePayment;
     }
 
     // check if LocalDate object represents paid day off. holidays and weekends are considered unpaid
