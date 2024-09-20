@@ -1,8 +1,7 @@
-package com.moonlightmoth.neoflexskillassessment.integretion.util;
+package com.moonlightmoth.neoflexskillassessment.util;
 
-import com.moonlightmoth.neoflexskillassessment.integretion.repository.HolidaysRepository;
+import com.moonlightmoth.neoflexskillassessment.repository.HolidaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 
 public class LeavePayCalculator {
 
-    private HolidaysRepository holidaysRepository;
+    final private HolidaysRepository holidaysRepository;
 
     @Autowired
     public LeavePayCalculator(HolidaysRepository holidaysRepository)

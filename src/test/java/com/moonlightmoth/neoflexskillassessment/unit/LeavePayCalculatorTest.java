@@ -1,12 +1,13 @@
 package com.moonlightmoth.neoflexskillassessment.unit;
 
 
-import com.moonlightmoth.neoflexskillassessment.integretion.repository.HolidaysRepository;
-import com.moonlightmoth.neoflexskillassessment.integretion.util.LeavePayCalculator;
-import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.repository.HolidaysRepository;
+import com.moonlightmoth.neoflexskillassessment.util.LeavePayCalculator;
+import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.time.Month;
 
@@ -31,13 +32,15 @@ public class LeavePayCalculatorTest {
     @Test
     void calculateFullFormTest()
     {
-        LeavePayCalculator leavePayCalculator =
-                new LeavePayCalculator(new HolidaysRepository(new ParamsParser(), new ClassPathResource("holidays_test_1")));
+        LeavePayCalculator leavePayCalculator = new LeavePayCalculator(
+                                new HolidaysRepository(new ParamsParser(),
+                                new ClassPathResource("holidays_test_1"),
+                                new TestLogger(OutputStream.nullOutputStream())));
 
         assertEquals(leavePayCalculator.calculateFullForm(
                 365,
                 LocalDate.of(2024, Month.JANUARY, 1),
-                LocalDate.of(2024, Month.JANUARY, 5)), 0); //holidays
+                LocalDate.of(2024, Month.JANUARY, 5)), 0); // holidays
 
         assertEquals(leavePayCalculator.calculateFullForm(
                 365,

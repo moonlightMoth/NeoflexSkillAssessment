@@ -1,14 +1,22 @@
-package com.moonlightmoth.neoflexskillassessment.integretion.controller;
+package com.moonlightmoth.neoflexskillassessment.controller;
 
-import com.moonlightmoth.neoflexskillassessment.integretion.util.ConsoleLogger;
-import com.moonlightmoth.neoflexskillassessment.integretion.util.LeavePayCalculator;
-import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.AppConfig;
+import com.moonlightmoth.neoflexskillassessment.util.logger.ConsoleLogger;
+import com.moonlightmoth.neoflexskillassessment.util.LeavePayCalculator;
+import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.util.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @RestController
 public class CalculateController {
@@ -20,7 +28,7 @@ public class CalculateController {
     private LeavePayCalculator leavePayCalculator;
 
     @Autowired
-    private ConsoleLogger consoleLogger;
+    private Logger consoleLogger;
     private static final String BAD_REQUEST_HINT =
                             "Request parameters format:<br>" +
                             "avgSalary AND (vacationLength XOR (fromDate AND dueToDate))<br>" +
@@ -68,10 +76,14 @@ public class CalculateController {
                     .body(BAD_REQUEST_HINT);
         }
 
-        System.out.println(consoleLogger.buildResponseStringForLog(resp));
+        consoleLogger.log(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")) +
+                "  RESPONSE --- " +
+                resp.getStatusCode() +
+                " " +
+                resp.getBody());
+
 
         return resp;
     }
-
 
 }

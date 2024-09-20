@@ -1,4 +1,4 @@
-package com.moonlightmoth.neoflexskillassessment.integretion;
+package com.moonlightmoth.neoflexskillassessment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

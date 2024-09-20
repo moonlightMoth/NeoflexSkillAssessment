@@ -1,12 +1,10 @@
 package com.moonlightmoth.neoflexskillassessment.unit;
 
-import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import static org.junit.jupiter.api.Assertions.*;

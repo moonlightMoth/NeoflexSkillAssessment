@@ -1,10 +1,9 @@
-package com.moonlightmoth.neoflexskillassessment.integretion.repository;
+package com.moonlightmoth.neoflexskillassessment.repository;
 
-import com.moonlightmoth.neoflexskillassessment.integretion.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.util.ParamsParser;
+import com.moonlightmoth.neoflexskillassessment.util.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,25 +17,29 @@ import java.util.Set;
 
 public class HolidaysRepository {
 
-    private static final String INVALID_FILE_WARNING =
-                    "WARNING: holidays file found, but has invalid format, " +
-                    "proceeding workflow without excluding holidays data.\n" +
-                    "Format must be dd.MM.yy on separate lines\n";
-    private static final String NO_FILE_FOUND_WARNING =
-                    "WARNING: No holidays file found, " +
-                    "proceeding workflow without excluding holidays data.\n";
+    private static final String separator = System.lineSeparator();
     private static final String EMPTY_FILE_WARNING =
-                    "WARNING: holidays file found, but is empty, " +
-                    "proceeding workflow without excluding holidays data.\n" +
-                    "Format must be dd.MM.yy on separate lines\n";
+            "WARNING: holidays file found, but is empty, " + separator +
+                    "proceeding workflow without excluding holidays data." + separator +
+                    "Format must be dd.MM.yy on separate lines";
+    private static final String INVALID_FILE_WARNING =
+            "WARNING: holidays file found, but has invalid format, " + separator +
+                    "proceeding workflow without excluding holidays data." + separator +
+                    "Format must be dd.MM.yy on separate lines";
+    private static final String NO_FILE_FOUND_WARNING =
+            "WARNING: No holidays file found, " + separator +
+                    "proceeding workflow without excluding holidays data.";
 
-    private ParamsParser paramsParser;
+
+    final private ParamsParser paramsParser;
     private Set<LocalDate> holidaysSet;
+    final private Logger logger;
 
     @Autowired
-    public HolidaysRepository(ParamsParser paramsParser, Resource loadFrom)
+    public HolidaysRepository(ParamsParser paramsParser, Resource loadFrom, Logger logger)
     {
         this.paramsParser = paramsParser;
+        this.logger = logger;
         fetchHolidays(loadFrom);
     }
 
@@ -56,26 +59,26 @@ public class HolidaysRepository {
 
             if (holidaysSet.isEmpty())
             {
-                System.out.println(EMPTY_FILE_WARNING);
+                logger.log(EMPTY_FILE_WARNING);
             }
             else
             {
-                System.out.println("Holidays loaded:");
+                logger.log("Holidays loaded:");
                 holidaysSet
                         .stream()
                         .sorted()
-                        .forEach(date -> System.out.println(date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))));
+                        .forEach(date -> logger.log(date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))));
             }
 
         } catch (IOException e)
         {
             // if no file found, or it has invalid format, print warning and continue with empty holidays list
-            System.out.println(NO_FILE_FOUND_WARNING);
+            logger.log(NO_FILE_FOUND_WARNING);
             holidaysSet.clear();
         }
         catch (DateTimeParseException e)
         {
-            System.out.println(INVALID_FILE_WARNING);
+            logger.log(INVALID_FILE_WARNING);
             holidaysSet.clear();
         }
     }
