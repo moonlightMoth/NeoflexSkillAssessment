@@ -36,7 +36,7 @@ public class CalculateController {
                             "avgSalary: double<br>" +
                             "vacationLength: int<br>" +
                             "fromDate: dd.MM.yy<br>" +
-                            "dueToDate: dd.MM.yy <br>";
+                            "dueToDate: dd.MM.yy <br>" + System.lineSeparator();
 
     @GetMapping("/calculate")
     public ResponseEntity<String> calculate(
