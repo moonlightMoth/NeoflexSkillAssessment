@@ -59,7 +59,7 @@ public class HttpParamsTest {
                     "avgSalary: double<br>" +
                     "vacationLength: int<br>" +
                     "fromDate: dd.MM.yy<br>" +
-                    "dueToDate: dd.MM.yy <br>";
+                    "dueToDate: dd.MM.yy <br>" + System.lineSeparator();
 
     @Test
     void controllerTest()
