@@ -67,26 +67,26 @@ public class HolidaysRepository {
 
             if (holidaysSet.isEmpty())
             {
-                log.debug(EMPTY_FILE_WARNING);
+                log.info(EMPTY_FILE_WARNING);
             }
             else
             {
-                log.debug("Holidays loaded:");
+                log.info("Holidays loaded:");
                 holidaysSet
                         .stream()
                         .sorted()
-                        .forEach(date -> log.debug(date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))));
+                        .forEach(date -> log.info(date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))));
             }
 
         } catch (IOException e)
         {
             // if no file found, or it has invalid format, print warning and continue with empty holidays list
-            log.debug(NO_FILE_FOUND_WARNING);
+            log.info(NO_FILE_FOUND_WARNING);
             holidaysSet.clear();
         }
         catch (DateTimeParseException e)
         {
-            log.debug(INVALID_FILE_WARNING);
+            log.info(INVALID_FILE_WARNING);
             holidaysSet.clear();
         }
     }
