@@ -1,50 +1,40 @@
 package ru.moonlightmoth.neoflexskillassessment.validation;
 
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.stereotype.Component;
+import ru.moonlightmoth.neoflexskillassessment.exceptions.InvalidLeavePaymentInfo;
 import ru.moonlightmoth.neoflexskillassessment.model.LeavePaymentInfo;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 
-@Component
 public class LeavePaymentInfoValidator implements ConstraintValidator<ValidLeavePaymentInfo, LeavePaymentInfo> {
 
     @Override
-    public boolean isValid(LeavePaymentInfo value, ConstraintValidatorContext context) {
-        try {
-            int avgSalary = value.getAvgSalary();
-            int vacationLength = value.getVacationLength();
-            LocalDate startDate = value.getStartDate();
-            LocalDate endDate = value.getEndDate();
+    public boolean isValid(LeavePaymentInfo leavePaymentInfo, ConstraintValidatorContext ctx) {
 
-            // avgSalary must be given
-            if (avgSalary <= 0)
-                return false;
+        double avgSalary = leavePaymentInfo.getAvgSalary();
+        int vacationLength = leavePaymentInfo.getVacationLength();
+        LocalDate startDate = leavePaymentInfo.getStartDate();
+        LocalDate endDate = leavePaymentInfo.getEndDate();
 
-            if (startDate == null && endDate == null)
-            {
-                // if given no dates, vacationLength must be >=0
-                if (vacationLength == 0)
-                    return false;
-            }
-            else if (startDate != null && endDate != null)
-            {
-                // if given both startDate and endDate, vacationLength must be absent
-                if (vacationLength > 0)
-                    return false;
-                if (startDate.isAfter(endDate))
-                    return false;
-            }
-            else // if given only one of: startDate, endDate
-            {
-                return false;
-            }
+        // avgSalary must be given
+        if (avgSalary <= 0)
+            throw new InvalidLeavePaymentInfo("avgSalary must be > 0");
 
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        if (vacationLength <= 0 && (startDate == null || endDate == null))
+            throw new InvalidLeavePaymentInfo(
+                    "Either vacationLength must be > 0 or both startDate and endDate present");
+
+        if (vacationLength > 0 && (startDate != null || endDate != null))
+            throw new InvalidLeavePaymentInfo(
+                    "Either vacationLength must be > 0 or both startDate and endDate present");
+
+        if (startDate != null && startDate.isAfter(endDate))
+            throw new InvalidLeavePaymentInfo(
+                    "startDate must be after endDate");
+
+
+        return true;
     }
 }
