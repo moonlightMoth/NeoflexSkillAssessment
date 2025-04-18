@@ -5,7 +5,7 @@ WORKDIR /src
 COPY . .
 RUN apt update
 RUN yes | apt install maven
-RUN mvn clean compile install spring-boot:repackage
+RUN mvn clean compile test install spring-boot:repackage
 
 # main container
 FROM eclipse-temurin:11
