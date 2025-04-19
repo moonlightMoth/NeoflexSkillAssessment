@@ -1,6 +1,5 @@
 package ru.moonlightmoth.neoflexskillassessment.service;
 
-import ru.moonlightmoth.neoflexskillassessment.exceptions.InvalidLeavePaymentInfo;
 import ru.moonlightmoth.neoflexskillassessment.model.LeavePaymentInfo;
 import ru.moonlightmoth.neoflexskillassessment.model.LeavePaymentResponse;
 

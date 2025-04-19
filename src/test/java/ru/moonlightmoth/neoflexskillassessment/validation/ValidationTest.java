@@ -2,7 +2,7 @@ package ru.moonlightmoth.neoflexskillassessment.validation;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.moonlightmoth.neoflexskillassessment.exceptions.InvalidLeavePaymentInfo;
+import ru.moonlightmoth.neoflexskillassessment.exceptions.InvalidLeavePaymentInfoException;
 import ru.moonlightmoth.neoflexskillassessment.model.LeavePaymentInfo;
 
 import java.time.LocalDate;
@@ -37,7 +37,7 @@ public class ValidationTest {
                 .startDate(LocalDate.of(2022, 2, 3))
                 .endDate(LocalDate.of(2022, 2, 2)).build());
 
-        invalidList.forEach(leavePaymentInfo -> assertThrows(InvalidLeavePaymentInfo.class,
+        invalidList.forEach(leavePaymentInfo -> assertThrows(InvalidLeavePaymentInfoException.class,
                 () -> validator.isValid(leavePaymentInfo, null)));
     }
 
