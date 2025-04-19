@@ -1,0 +1,5 @@
+ru\moonlightmoth\neoflexskillassessment\service\LeavePaymentServiceTest.class
+ru\moonlightmoth\neoflexskillassessment\validation\ValidationTest.class
+ru\moonlightmoth\neoflexskillassessment\repository\HolidaysRepositoryTest.class
+ru\moonlightmoth\neoflexskillassessment\controller\CalculateControllerTest.class
+ru\moonlightmoth\neoflexskillassessment\NeoflexSkillAssessmentApplicationTests.class

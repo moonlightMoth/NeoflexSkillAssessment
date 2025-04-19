@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.moonlightmoth.neoflexskillassessment.integration.HttpParamsTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.087 s - in com.moonlightmoth.neoflexskillassessment.integration.HttpParamsTest
